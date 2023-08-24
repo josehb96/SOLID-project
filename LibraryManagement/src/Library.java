@@ -19,6 +19,7 @@ public class Library {
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
+            scanner.nextLine(); // Clean the buffer
 
             switch (choice) {
                 case 1:
@@ -53,23 +54,23 @@ public class Library {
 
         int choice;
 
-        // Implement your book management functionality here
         System.out.println("Book Management Menu");
         System.out.println("1. Add new book");
         System.out.println("2. Remove book");
         System.out.println("3. Update book details");
 
         choice = scanner.nextInt();
+        scanner.nextLine(); // Clean the buffer
         
         switch (choice) {
             case 1:
                 addNewBook(libraryData, scanner);
                 break;
             case 2:
-                removeBook(libraryData, scanner);
+                //removeBook(libraryData, scanner);
                 break;
             case 3:
-                updateBook(libraryData, scanner);
+                //updateBook(libraryData, scanner);
                 break;
             case 0:
                 System.out.println("Returning to the main menu...");
@@ -81,43 +82,67 @@ public class Library {
     }
 
     public static void userManagementMenu(LibraryData libraryData, Scanner scanner) {
-        // Implement your user management functionality here
+
         System.out.println("User Management Menu");
         System.out.println("1. Register new user");
         System.out.println("2. Update user information");
         System.out.println("3. Deactivate user account");
-        // Add more options as needed
+
     }
 
     public static void loanManagementMenu(LibraryData libraryData, Scanner scanner) {
-        // Implement your loan management functionality here
+
         System.out.println("Loan Management Menu");
         System.out.println("1. Borrow a book");
         System.out.println("2. Return a book");
         System.out.println("3. Calculate fines");
-        // Add more options as needed
+
     }
 
     public static void reportGenerationMenu(LibraryData libraryData, Scanner scanner) {
-        // Implement your report generation functionality here
+
+        int choice;
+
         System.out.println("Report Generation Menu");
         System.out.println("1. Generate available books report");
         System.out.println("2. Generate borrowed books report");
         System.out.println("3. Generate overdue users report");
-        // Add more options as needed
+    
+        choice = scanner.nextInt();
+        scanner.nextLine(); // Clean the buffer
+
+        switch (choice) {
+            case 1:
+                LoanManagement loanManagement = new LoanManagement();
+                loanManagement.generateAvailableBooksReport(libraryData);
+                break;
+            case 2:
+                //generateBorrowedBooksReport(libraryData);
+                break;
+            case 3:
+                //generateOverdueUsersReport(libraryData);
+                break;
+            case 0:
+                System.out.println("Returning to the main menu...");
+                break;
+            default:
+                System.out.println("Invalid choice. Please select a valid option.");
+        }
+
     }
 
     public static void addNewBook(LibraryData libraryData, Scanner scanner){
 
         try {
-            System.out.print("Enter the book title: ");
+            System.out.println("Enter the book title: ");
             String title = scanner.nextLine();
     
-            System.out.print("Enter the author: ");
+            System.out.println("Enter the author: ");
             String author = scanner.nextLine();
     
-            System.out.print("Enter the number of pages: ");
+            System.out.println("Enter the number of pages: ");
             int pages = scanner.nextInt();
+            scanner.nextLine(); // Clean the buffer
     
             BookManagement bookManagement = new BookManagement();
             bookManagement.addBook(libraryData, title, author, pages);

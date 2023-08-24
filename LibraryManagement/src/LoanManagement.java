@@ -117,7 +117,7 @@ public class LoanManagement implements LoanManage{
 
         for (Map.Entry<String, Book> entry : libraryData.getBooks().entrySet()) {
             if (!libraryData.getBorrowings().containsKey(entry.getKey())) {
-                System.out.println("Available Book: " + entry.getValue().getTitle());
+                System.out.println("Available Book: " + entry.getValue().getTitle() + " | " + entry.getValue().getAuthor() + " | " + entry.getValue().getPages() + " pages");
             }
         }
 
