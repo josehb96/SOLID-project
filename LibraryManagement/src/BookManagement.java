@@ -55,6 +55,10 @@ public class BookManagement implements BookManage {
     public int getNumberOfBooks() {
         return store.size();
     }
+
+    public Map<String, Book> getStore(){
+        return store;
+    }
     
 
 }

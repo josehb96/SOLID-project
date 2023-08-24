@@ -56,5 +56,9 @@ public class UserManagement implements UserManage {
         return users.size();
     }
 
+    public Map<String, User> getUsers(){
+        return users;
+    }
+
 
 }
