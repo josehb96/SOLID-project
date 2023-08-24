@@ -59,6 +59,5 @@ public class BookManagement implements BookManage {
     public Map<String, Book> getStore(){
         return store;
     }
-    
 
 }

@@ -111,6 +111,38 @@ public class LoanManagement implements LoanManage{
 
     }
 
+    public void generateAvailableBooksReport() {
 
+        Map<String, Book> store = bookManager.getStore();
+
+        for (Map.Entry<String, Book> entry : store.entrySet()) {
+            if (!borrowings.containsKey(entry.getKey())) {
+                System.out.println("Available Book: " + entry.getValue().getTitle());
+            }
+        }
+
+    }
+
+    public void generateBorrowedBooksReport(){
+
+        for (Map.Entry<String, LoanBook> entry : borrowings.entrySet()){
+            System.out.println("Borrowed Book: " + entry.getValue().getTitle() + " Due Date: " + entry.getValue().getFine());
+        }
+
+    }
+
+    public void generateOverdueUsersReport(){
+
+        LocalDate currentDate = LocalDate.now();
+        for (Map.Entry<String, LoanBook> entry : borrowings.entrySet()){
+            if (currentDate.isAfter(entry.getValue().getDueDate())){
+                long overdueDays = ChronoUnit.DAYS.between(entry.getValue().getDueDate(), currentDate);
+                double fine = overdueDays * 1.0; // Calculate fine based on policy
+                System.out.println("User: " + entry.getKey() + " has overdue book: " + entry.getValue().getTitle() + " Fine: " + fine + "$");
+            }
+
+        }
+
+    }
 
 }
