@@ -1,32 +1,32 @@
-import java.util.HashMap;
-import java.util.Map;
+// import java.util.HashMap;
+// import java.util.Map;
 
 interface BookManage {
     
-    void addBook(String title, String author, int pages);
-    void removeBook(String title);
-    void updateBook(String title, String author, int pages);
+    void addBook(LibraryData libraryData, String title, String author, int pages);
+    void removeBook(LibraryData libraryData, String title);
+    void updateBook(LibraryData libraryData, String title, String author, int pages);
 
 }
 
 public class BookManagement implements BookManage {
 
-    private Map<String, Book> store = new HashMap<>();
+    //private Map<String, Book> store = new HashMap<>();
 
     @Override
-    public void addBook(String title, String author, int pages){
+    public void addBook(LibraryData libraryData, String title, String author, int pages){
 
         Book book = new Book(title, author, pages);
-        store.put(title, book);
+        libraryData.addBook(title, book);
 
     }
 
     @Override
-    public void removeBook(String title){
+    public void removeBook(LibraryData libraryData, String title){
 
         // Check if the book is in the store
-        if (store.containsKey(title)){
-            store.remove(title);   
+        if (libraryData.getBooks().containsKey(title)){
+            libraryData.removeBook(title);   
         } else {
             System.out.println("Book not found " + title);
         }
@@ -34,11 +34,11 @@ public class BookManagement implements BookManage {
     }
 
     @Override 
-    public void updateBook(String title, String author, int pages){
+    public void updateBook(LibraryData libraryData, String title, String author, int pages){
 
         // Check if the book is in the store
-        if (store.containsKey(title)){
-            Book book = getBook(title);
+        if (libraryData.getBooks().containsKey(title)){
+            Book book = libraryData.getBooks().get(title);
             book.setAuthor(author);
             book.setPages(pages);
         } else {
@@ -47,17 +47,17 @@ public class BookManagement implements BookManage {
 
     }
 
-    // Additional methods for encapsulation
-    public Book getBook(String title) {
-        return store.get(title);
-    }
+    // // Additional methods for encapsulation
+    // public Book getBook(String title) {
+    //     return store.get(title);
+    // }
 
-    public int getNumberOfBooks() {
-        return store.size();
-    }
+    // public int getNumberOfBooks() {
+    //     return store.size();
+    // }
 
-    public Map<String, Book> getStore(){
-        return store;
-    }
+    // public Map<String, Book> getStore(){
+    //     return store;
+    // }
 
 }

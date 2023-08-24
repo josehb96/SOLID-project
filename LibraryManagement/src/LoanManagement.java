@@ -1,5 +1,5 @@
 import java.util.Map;
-import java.util.HashMap;
+//import java.util.HashMap;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -8,36 +8,36 @@ import java.util.Iterator;
 
 interface LoanManage {
 
-    void borrowBook(String userId, Book book);
-    void returnBook(String userId, String bookTitle);
+    void borrowBook(LibraryData libraryData, String userId, Book book);
+    void returnBook(LibraryData libraryData, String userId, String bookTitle);
 
 }
 
 public class LoanManagement implements LoanManage{
 
-    private Map<String, LoanBook> borrowings = new HashMap<>();
+    //private Map<String, LoanBook> borrowings = new HashMap<>();
 
     // Inyección de dependencias
-    private BookManagement bookManager;
-    private UserManagement userManager;
+    //private BookManagement bookManager;
+    //private UserManagement userManager;
 
-    public LoanManagement(BookManagement bookManager, UserManagement userManager) {
-        this.bookManager = bookManager;
-        this.userManager = userManager;
-    }
+    // public LoanManagement(BookManagement bookManager, UserManagement userManager) {
+    //     this.bookManager = bookManager;
+    //     this.userManager = userManager;
+    // }
 
 
     @Override
-    public void borrowBook(String userId, Book book){
+    public void borrowBook(LibraryData libraryData, String userId, Book book){
 
-        Map<String, Book> store = bookManager.getStore();
-        Map<String, User> users = userManager.getUsers();
+        //Map<String, Book> store = bookManager.getStore();
+        //Map<String, User> users = userManager.getUsers();
 
         // Check if the book is in the store
-        if (store.containsKey(book.getTitle())){
+        if (libraryData.getUsers().containsKey(book.getTitle())){
             
             // Check if the user is registered
-            if(users.containsKey(userId)){
+            if(libraryData.getUsers().containsKey(userId)){
 
                 // Create the loan book
                 LoanBook loanBook = new LoanBook(book.getTitle(), book.getAuthor(), book.getPages());
@@ -50,7 +50,7 @@ public class LoanManagement implements LoanManage{
                 loanBook.setReturnDate(null); // Initialize as not returned
                 loanBook.setFine(0.0); // Initialize fine
 
-                borrowings.put(userId, loanBook); // Store the userId with the title of the book
+                libraryData.getBorrowings().put(userId, loanBook); // Store the userId with the title of the book
                 
                 System.out.println("Book borrowed successfully.");
 
@@ -65,18 +65,18 @@ public class LoanManagement implements LoanManage{
     }
 
     @Override
-    public void returnBook(String userId, String bookTitle){
+    public void returnBook(LibraryData libraryData, String userId, String bookTitle){
 
-        Map<String, Book> store = bookManager.getStore();
-        Map<String, User> users = userManager.getUsers();
+        //Map<String, Book> store = bookManager.getStore();
+        //Map<String, User> users = userManager.getUsers();
 
         // Check if the book is in the store
-        if (store.containsKey(bookTitle)){
+        if (libraryData.getBooks().containsKey(bookTitle)){
             
             // Check if the user is registered
-            if(users.containsKey(userId)){
+            if(libraryData.getUsers().containsKey(userId)){
 
-                Iterator<Map.Entry<String, LoanBook>> iterator = borrowings.entrySet().iterator();
+                Iterator<Map.Entry<String, LoanBook>> iterator = libraryData.getBorrowings().entrySet().iterator();
                 while (iterator.hasNext()) {
                     Map.Entry<String, LoanBook> entry = iterator.next();
                     if (entry.getKey().equals(userId) && entry.getValue().getTitle().equals(bookTitle)) {
@@ -111,30 +111,30 @@ public class LoanManagement implements LoanManage{
 
     }
 
-    public void generateAvailableBooksReport() {
+    public void generateAvailableBooksReport(LibraryData libraryData) {
 
-        Map<String, Book> store = bookManager.getStore();
+        //Map<String, Book> store = bookManager.getStore();
 
-        for (Map.Entry<String, Book> entry : store.entrySet()) {
-            if (!borrowings.containsKey(entry.getKey())) {
+        for (Map.Entry<String, Book> entry : libraryData.getBooks().entrySet()) {
+            if (!libraryData.getBorrowings().containsKey(entry.getKey())) {
                 System.out.println("Available Book: " + entry.getValue().getTitle());
             }
         }
 
     }
 
-    public void generateBorrowedBooksReport(){
+    public void generateBorrowedBooksReport(LibraryData libraryData){
 
-        for (Map.Entry<String, LoanBook> entry : borrowings.entrySet()){
+        for (Map.Entry<String, LoanBook> entry : libraryData.getBorrowings().entrySet()){
             System.out.println("Borrowed Book: " + entry.getValue().getTitle() + " Due Date: " + entry.getValue().getFine());
         }
 
     }
 
-    public void generateOverdueUsersReport(){
+    public void generateOverdueUsersReport(LibraryData libraryData){
 
         LocalDate currentDate = LocalDate.now();
-        for (Map.Entry<String, LoanBook> entry : borrowings.entrySet()){
+        for (Map.Entry<String, LoanBook> entry : libraryData.getBorrowings().entrySet()){
             if (currentDate.isAfter(entry.getValue().getDueDate())){
                 long overdueDays = ChronoUnit.DAYS.between(entry.getValue().getDueDate(), currentDate);
                 double fine = overdueDays * 1.0; // Calculate fine based on policy

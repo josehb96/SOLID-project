@@ -3,6 +3,9 @@ import java.util.Scanner;
 public class Library {
 
     public static void main(String[] args) {
+
+        LibraryData libraryData = new LibraryData();
+
         Scanner scanner = new Scanner(System.in);
 
         int choice;
@@ -20,19 +23,19 @@ public class Library {
             switch (choice) {
                 case 1:
                     // Book Management Menu
-                    bookManagementMenu();
+                    bookManagementMenu(libraryData, scanner);
                     break;
                 case 2:
                     // User Management Menu
-                    userManagementMenu();
+                    userManagementMenu(libraryData, scanner);
                     break;
                 case 3:
                     // Loan Management Menu
-                    loanManagementMenu();
+                    loanManagementMenu(libraryData, scanner);
                     break;
                 case 4:
                     // Report Generation Menu
-                    reportGenerationMenu();
+                    reportGenerationMenu(libraryData, scanner);
                     break;
                 case 0:
                     System.out.println("Exiting Library Management System. Goodbye!");
@@ -46,16 +49,38 @@ public class Library {
         scanner.close();
     }
 
-    public static void bookManagementMenu() {
+    public static void bookManagementMenu(LibraryData libraryData, Scanner scanner) {
+
+        int choice;
+
         // Implement your book management functionality here
         System.out.println("Book Management Menu");
         System.out.println("1. Add new book");
         System.out.println("2. Remove book");
         System.out.println("3. Update book details");
-        // Add more options as needed
+
+        choice = scanner.nextInt();
+        
+        switch (choice) {
+            case 1:
+                addNewBook(libraryData, scanner);
+                break;
+            case 2:
+                removeBook(libraryData, scanner);
+                break;
+            case 3:
+                updateBook(libraryData, scanner);
+                break;
+            case 0:
+                System.out.println("Returning to the main menu...");
+                break;
+            default:
+                System.out.println("Invalid choice. Please select a valid option.");
+        }
+
     }
 
-    public static void userManagementMenu() {
+    public static void userManagementMenu(LibraryData libraryData, Scanner scanner) {
         // Implement your user management functionality here
         System.out.println("User Management Menu");
         System.out.println("1. Register new user");
@@ -64,7 +89,7 @@ public class Library {
         // Add more options as needed
     }
 
-    public static void loanManagementMenu() {
+    public static void loanManagementMenu(LibraryData libraryData, Scanner scanner) {
         // Implement your loan management functionality here
         System.out.println("Loan Management Menu");
         System.out.println("1. Borrow a book");
@@ -73,7 +98,7 @@ public class Library {
         // Add more options as needed
     }
 
-    public static void reportGenerationMenu() {
+    public static void reportGenerationMenu(LibraryData libraryData, Scanner scanner) {
         // Implement your report generation functionality here
         System.out.println("Report Generation Menu");
         System.out.println("1. Generate available books report");
@@ -81,4 +106,27 @@ public class Library {
         System.out.println("3. Generate overdue users report");
         // Add more options as needed
     }
+
+    public static void addNewBook(LibraryData libraryData, Scanner scanner){
+
+        try {
+            System.out.print("Enter the book title: ");
+            String title = scanner.nextLine();
+    
+            System.out.print("Enter the author: ");
+            String author = scanner.nextLine();
+    
+            System.out.print("Enter the number of pages: ");
+            int pages = scanner.nextInt();
+    
+            BookManagement bookManagement = new BookManagement();
+            bookManagement.addBook(libraryData, title, author, pages);
+        
+
+        } catch (Exception e) {
+            System.out.println("An error occurred while processing your book info input: " + e.getMessage());
+        }
+
+    }
+
 }
