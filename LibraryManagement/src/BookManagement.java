@@ -3,9 +3,9 @@ import java.util.Map;
 
 interface BookManage {
     
-    public void addBook(String title, String author, int pages);
-    public void removeBook(String title);
-    public void updateBook(String title, String author, int pages);
+    void addBook(String title, String author, int pages);
+    void removeBook(String title);
+    void updateBook(String title, String author, int pages);
 
 }
 
