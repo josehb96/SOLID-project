@@ -157,7 +157,6 @@ public class Library {
     public static void loanManagementMenu(LibraryData libraryData, Scanner scanner) {
 
         int choice;
-        LoanManagement loanManagement = new LoanManagement();
 
         do{
 
