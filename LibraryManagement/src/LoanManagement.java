@@ -115,6 +115,7 @@ public class LoanManagement implements LoanManage{
 
         //Map<String, Book> store = bookManager.getStore();
 
+        System.out.println();
         System.out.println("Available Books:");
 
         for (Map.Entry<String, Book> entry : libraryData.getBooks().entrySet()) {

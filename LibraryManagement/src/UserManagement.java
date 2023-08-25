@@ -1,6 +1,8 @@
 // import java.util.HashMap;
 // import java.util.Map;
 
+import java.util.Map;
+
 interface UserManage{
 
     void registerUser(LibraryData libraryData, String userId, String name, int age, String email, String phoneNumber);
@@ -17,6 +19,7 @@ public class UserManagement implements UserManage {
     public void registerUser(LibraryData libraryData, String userId, String name, int age, String email, String phoneNumber){
         User user = new User(name, age, email, phoneNumber);
         libraryData.getUsers().put(userId, user);
+        System.out.println("User registered correctly.");
     }
 
     @Override
@@ -29,6 +32,7 @@ public class UserManagement implements UserManage {
             user.setAge(age);
             user.setEmail(email);
             user.setPhoneNumber(phoneNumber);
+            System.out.println("User updated correctly.");
 
         } else {
             System.out.println("User not found: " + userId);
@@ -41,8 +45,20 @@ public class UserManagement implements UserManage {
 
         if (libraryData.getUsers().containsKey(userId)){
             libraryData.getUsers().remove(userId);
+            System.out.println("User deactivated correctly.");
         } else {
             System.out.println("User not found: " + userId);
+        }
+
+    }
+
+    public void generateRegisteredUsersReport(LibraryData libraryData) {
+
+        System.out.println();
+        System.out.println("Registered Users:");
+
+        for (Map.Entry<String, User> entry : libraryData.getUsers().entrySet()) {
+            System.out.println("- " + entry.getValue().getName() + " | " + entry.getValue().getAge() + " | " + entry.getValue().getEmail() + " | " + entry.getValue().getPhoneNumber());
         }
 
     }

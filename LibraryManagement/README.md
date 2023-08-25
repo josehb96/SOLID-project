@@ -29,6 +29,7 @@ Create a software system that manages a library's collection of books, allows us
 4.Report Generation:
 
 - Generate reports showing available books.
+- Generate reports showing registered users.
 - Generate reports showing borrowed books and their due dates.
 - Generate reports showing users with overdue books and fines.
 

@@ -18,6 +18,7 @@ public class BookManagement implements BookManage {
 
         Book book = new Book(title, author, pages);
         libraryData.addBook(title, book);
+        System.out.println("Book added correctly.");
 
     }
 
@@ -27,8 +28,9 @@ public class BookManagement implements BookManage {
         // Check if the book is in the store
         if (libraryData.getBooks().containsKey(title)){
             libraryData.removeBook(title);   
+            System.out.println("Book removed correctly.");
         } else {
-            System.out.println("Book not found " + title);
+            System.out.println("Book not found: " + title);
         }
 
     }
@@ -41,6 +43,7 @@ public class BookManagement implements BookManage {
             Book book = libraryData.getBooks().get(title);
             book.setAuthor(author);
             book.setPages(pages);
+            System.out.println("Book updated correctly.");
         } else {
             System.out.println("Book not found: " + title);
         }
