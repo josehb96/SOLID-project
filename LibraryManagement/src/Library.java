@@ -156,13 +156,44 @@ public class Library {
 
     public static void loanManagementMenu(LibraryData libraryData, Scanner scanner) {
 
-        System.out.println();
-        System.out.println("Loan Management Menu");
-        System.out.println("1. Borrow a book");
-        System.out.println("2. Return a book");
-        System.out.println("3. Calculate fines");
-        System.out.println("0. Exit");
-        System.out.print("Enter your choice: ");
+        int choice;
+        LoanManagement loanManagement = new LoanManagement();
+
+        do{
+
+            System.out.println();
+            System.out.println("Loan Management Menu");
+            System.out.println("1. Borrow a book");
+            System.out.println("2. Return a book");
+            System.out.println("0. Exit");
+            System.out.print("Enter your choice: ");
+        
+            if (scanner.hasNextInt()){
+
+                choice = scanner.nextInt();
+                scanner.nextLine(); // Clean newline character from buffer
+
+                switch (choice) {
+                    case 1:
+                        borrowBook(libraryData, scanner);
+                        break;
+                    case 2:
+                        returnBook(libraryData, scanner);
+                        break;
+                    case 0:
+                        System.out.println("Returning to the main menu...");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please select a valid option.");
+                }
+
+            } else {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.nextLine(); // Clear invalid input from buffer
+                choice = 1; // Set choice to an invalid value to continue loop
+            }
+
+        } while (choice != 0);
 
     }
 
@@ -197,10 +228,10 @@ public class Library {
                         userManagement.generateRegisteredUsersReport(libraryData);
                         break;
                     case 3:
-                        //generateBorrowedBooksReport(libraryData);
+                        loanManagement.generateBorrowedBooksReport(libraryData);
                         break;
                     case 4:
-                        //generateOverdueUsersReport(libraryData);
+                        loanManagement.generateOverdueUsersReport(libraryData);
                         break;
                     case 0:
                         System.out.println("Returning to the main menu...");
@@ -246,6 +277,8 @@ public class Library {
 
     public static void removeBook(LibraryData libraryData, Scanner scanner){
         
+        System.out.println();
+
         try{
 
             System.out.print("Enter the book title: ");
@@ -261,6 +294,8 @@ public class Library {
     }
 
     public static void updateBook(LibraryData libraryData, Scanner scanner){
+
+        System.out.println();
 
         try{
 
@@ -359,6 +394,48 @@ public class Library {
         
         } catch (Exception e) {
             System.out.println("An error occurred while removing the user: " + e.getMessage());
+        }
+
+    }
+
+    public static void borrowBook(LibraryData libraryData, Scanner scanner){
+
+        System.out.println();
+
+        try {
+
+            System.out.print("Enter the user id: ");
+            String userId = scanner.nextLine();
+
+            System.out.print("Enter the book title: ");
+            String title = scanner.nextLine();
+    
+            LoanManagement loanManagement = new LoanManagement();
+            loanManagement.borrowBook(libraryData, userId, title);
+        
+        } catch (Exception e) {
+            System.out.println("An error occurred while borrowing the book: " + e.getMessage());
+        }
+
+    }
+
+    public static void returnBook(LibraryData libraryData, Scanner scanner){
+
+        System.out.println();
+
+        try {
+
+            System.out.print("Enter the user id: ");
+            String userId = scanner.nextLine();
+
+            System.out.print("Enter the book title: ");
+            String title = scanner.nextLine();
+    
+            LoanManagement loanManagement = new LoanManagement();
+            loanManagement.returnBook(libraryData, userId, title);
+        
+        } catch (Exception e) {
+            System.out.println("An error occurred while returning the book: " + e.getMessage());
         }
 
     }

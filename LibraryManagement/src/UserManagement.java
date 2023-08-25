@@ -58,7 +58,7 @@ public class UserManagement implements UserManage {
         System.out.println("Registered Users:");
 
         for (Map.Entry<String, User> entry : libraryData.getUsers().entrySet()) {
-            System.out.println("- " + entry.getValue().getName() + " | " + entry.getValue().getAge() + " | " + entry.getValue().getEmail() + " | " + entry.getValue().getPhoneNumber());
+            System.out.println("- " + entry.getKey() + " | " + entry.getValue().getName() + " | " + entry.getValue().getAge() + " | " + entry.getValue().getEmail() + " | " + entry.getValue().getPhoneNumber());
         }
 
     }

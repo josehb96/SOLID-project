@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 interface LoanManage {
 
-    void borrowBook(LibraryData libraryData, String userId, Book book);
+    void borrowBook(LibraryData libraryData, String userId, String bookTitle);
     void returnBook(LibraryData libraryData, String userId, String bookTitle);
 
 }
@@ -28,16 +28,18 @@ public class LoanManagement implements LoanManage{
 
 
     @Override
-    public void borrowBook(LibraryData libraryData, String userId, Book book){
+    public void borrowBook(LibraryData libraryData, String userId, String bookTitle){
 
         //Map<String, Book> store = bookManager.getStore();
         //Map<String, User> users = userManager.getUsers();
 
         // Check if the book is in the store
-        if (libraryData.getUsers().containsKey(book.getTitle())){
+        if (libraryData.getBooks().containsKey(bookTitle)){
             
             // Check if the user is registered
             if(libraryData.getUsers().containsKey(userId)){
+
+                Book book = libraryData.getBooks().get(bookTitle);
 
                 // Create the loan book
                 LoanBook loanBook = new LoanBook(book.getTitle(), book.getAuthor(), book.getPages());
@@ -50,7 +52,13 @@ public class LoanManagement implements LoanManage{
                 loanBook.setReturnDate(null); // Initialize as not returned
                 loanBook.setFine(0.0); // Initialize fine
 
-                libraryData.getBorrowings().put(userId, loanBook); // Store the userId with the title of the book
+                //libraryData.getBorrowings().put(userId, loanBook); // Store the userId with the book
+
+                // Add to the borrowings
+                libraryData.addBorrowing(userId, loanBook);
+
+                // Eliminate this book from the store
+                libraryData.removeBook(bookTitle);
                 
                 System.out.println("Book borrowed successfully.");
 
@@ -59,7 +67,7 @@ public class LoanManagement implements LoanManage{
             }
 
         } else {
-            System.out.println("Book not found: " + book.getTitle());
+            System.out.println("Book not found: " + bookTitle);
         }
 
     }
@@ -70,44 +78,47 @@ public class LoanManagement implements LoanManage{
         //Map<String, Book> store = bookManager.getStore();
         //Map<String, User> users = userManager.getUsers();
 
-        // Check if the book is in the store
-        if (libraryData.getBooks().containsKey(bookTitle)){
-            
-            // Check if the user is registered
-            if(libraryData.getUsers().containsKey(userId)){
+        // Check if the user is in the borrowers
+        if (libraryData.getBorrowings().containsKey(userId)){
 
-                Iterator<Map.Entry<String, LoanBook>> iterator = libraryData.getBorrowings().entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Map.Entry<String, LoanBook> entry = iterator.next();
-                    if (entry.getKey().equals(userId) && entry.getValue().getTitle().equals(bookTitle)) {
+            Iterator<Map.Entry<String, LoanBook>> iterator = libraryData.getBorrowings().entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, LoanBook> entry = iterator.next();
+                if (entry.getKey().equals(userId) && entry.getValue().getTitle().equals(bookTitle)) {
 
-                        LocalDate returnDate = LocalDate.now();
-                        entry.getValue().setReturnDate(returnDate);
-            
-                        // Calculate overdue period in days
-                        long overdueDays = ChronoUnit.DAYS.between(entry.getValue().getDueDate(), returnDate);
-            
-                        // Set fine based on library's policy (e.g., $1 per day overdue)
-                        double fineAmount = overdueDays * 1.0; // $1 per day
-            
-                        entry.getValue().setFine(fineAmount);
+                    LocalDate returnDate = LocalDate.now();
+                    entry.getValue().setReturnDate(returnDate);
+        
+                    // Calculate overdue period in days
+                    long overdueDays = ChronoUnit.DAYS.between(entry.getValue().getDueDate(), returnDate);
+        
+                    // Set fine based on library's policy (e.g., $1 per day overdue)
+                    double fineAmount = overdueDays * 1.0; // $1 per day
+        
+                    entry.getValue().setFine(fineAmount);
 
-                        System.out.println("The fine amount is: " + fineAmount);
+                    System.out.println("The fine amount is: " + fineAmount);
 
-                        iterator.remove(); // Delete the matching entry
-                        System.out.println("Book returned successfully.");
-                        return; // Exit loop if found and remove entry
-                    }
+                    //iterator.remove(); // Delete the matching entry
+
+                    // Add to the store
+                    libraryData.addBook(bookTitle, libraryData.getBorrowings().get(userId));
+
+                    // Eliminate this book from the borrowings
+                    libraryData.removeBorrowing(userId);
+
+
+                    System.out.println("Book returned successfully.");
+                    return; // Exit loop if found and remove entry
                 }
-                System.out.println("No matching loan found.");
-
-            } else {
-                System.out.println("User not found: " + userId);
             }
 
+            System.out.println("No matching loan found.");
+
         } else {
-            System.out.println("Book not found: " + bookTitle);
+            System.out.println("The user is not in the borrowers list: " + userId);
         }
+
 
     }
 
