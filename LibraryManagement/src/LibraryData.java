@@ -37,12 +37,12 @@ public class LibraryData {
 
     // Methods to manipulate loan maps
 
-    public void addBorrowing(String userId, LoanBook loanBook) {
-        borrowings.put(userId, loanBook);
+    public void addBorrowing(String bookId, LoanBook book) {
+        borrowings.put(bookId, book);
     }
 
-    public void removeBorrowing(String userId) {
-        borrowings.remove(userId);
+    public void removeBorrowing(String bookId) {
+        borrowings.remove(bookId);
     }
 
     public Map<String, LoanBook> getBorrowings() {

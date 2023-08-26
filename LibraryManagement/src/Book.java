@@ -36,6 +36,10 @@ public class Book {
 
     // Setters
 
+    public void setBookId(String bookId){
+        this.bookId = bookId;
+    }
+
     public void setTitle(String title){
         this.title = title;
     }

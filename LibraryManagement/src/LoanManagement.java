@@ -8,8 +8,8 @@ import java.util.Iterator;
 
 interface LoanManage {
 
-    void borrowBook(LibraryData libraryData, String userId, String bookTitle);
-    void returnBook(LibraryData libraryData, String userId, String bookTitle);
+    void borrowBook(LibraryData libraryData, String userId, String bookId);
+    void returnBook(LibraryData libraryData, String bookId);
 
 }
 
@@ -17,18 +17,18 @@ public class LoanManagement implements LoanManage{
 
 
     @Override
-    public void borrowBook(LibraryData libraryData, String userId, String bookTitle){
+    public void borrowBook(LibraryData libraryData, String userId, String bookId){
 
         // Check if the book is in the store
-        if (libraryData.getBooks().containsKey(bookTitle)){
+        if (libraryData.getBooks().containsKey(bookId)){
             
             // Check if the user is registered
             if(libraryData.getUsers().containsKey(userId)){
 
-                Book book = libraryData.getBooks().get(bookTitle);
+                Book book = libraryData.getBooks().get(bookId); // Obtain the book from the store
 
                 // Create the loan book
-                LoanBook loanBook = new LoanBook(book.getTitle(), book.getAuthor(), book.getPages());
+                LoanBook loanBook = new LoanBook(bookId, book.getTitle(), book.getAuthor(), book.getPages(), userId);
 
                 // Calculate due date as 2 weeks from the current date
                 LocalDate dueDate = LocalDate.now().plus(2, ChronoUnit.WEEKS);
@@ -41,10 +41,10 @@ public class LoanManagement implements LoanManage{
                 //libraryData.getBorrowings().put(userId, loanBook); // Store the userId with the book
 
                 // Add to the borrowings
-                libraryData.addBorrowing(userId, loanBook);
+                libraryData.addBorrowing(bookId, loanBook);
 
                 // Eliminate this book from the store
-                libraryData.removeBook(bookTitle);
+                libraryData.removeBook(bookId);
                 
                 System.out.println("Book borrowed successfully.");
 
@@ -53,21 +53,24 @@ public class LoanManagement implements LoanManage{
             }
 
         } else {
-            System.out.println("Book not found: " + bookTitle);
+            System.out.println("Book not found: " + bookId);
         }
 
     }
 
     @Override
-    public void returnBook(LibraryData libraryData, String userId, String bookTitle){
+    public void returnBook(LibraryData libraryData, String bookId){
 
-        // Check if the user is in the borrowers
-        if (libraryData.getBorrowings().containsKey(userId)){
+        // Check if the book is in the borrowings
+        if (libraryData.getBorrowings().containsKey(bookId)){
 
             Iterator<Map.Entry<String, LoanBook>> iterator = libraryData.getBorrowings().entrySet().iterator();
+
             while (iterator.hasNext()) {
+
                 Map.Entry<String, LoanBook> entry = iterator.next();
-                if (entry.getKey().equals(userId) && entry.getValue().getTitle().equals(bookTitle)) {
+
+                if (entry.getKey().equals(bookId)) {
 
                     LocalDate returnDate = LocalDate.now();
                     entry.getValue().setReturnDate(returnDate);
@@ -84,11 +87,11 @@ public class LoanManagement implements LoanManage{
 
                     //iterator.remove(); // Delete the matching entry
 
-                    // Add to the store
-                    libraryData.addBook(bookTitle, libraryData.getBorrowings().get(userId));
+                    // Add the book back to the store
+                    libraryData.addBook(bookId, libraryData.getBorrowings().get(bookId));
 
                     // Eliminate this book from the borrowings
-                    libraryData.removeBorrowing(userId);
+                    libraryData.removeBorrowing(bookId);
 
 
                     System.out.println("Book returned successfully.");
@@ -99,7 +102,7 @@ public class LoanManagement implements LoanManage{
             System.out.println("No matching loan found.");
 
         } else {
-            System.out.println("The user is not in the borrowers list: " + userId);
+            System.out.println("The book is not in the borrowings list: " + bookId);
         }
 
 
@@ -124,7 +127,7 @@ public class LoanManagement implements LoanManage{
         System.out.println("Borrowed Books:");
 
         for (Map.Entry<String, LoanBook> entry : libraryData.getBorrowings().entrySet()){
-            System.out.println("- " + entry.getValue().getBookId() + " | " + entry.getValue().getTitle() + " Due Date: " + entry.getValue().getFine());
+            System.out.println("- " + entry.getValue().getBookId() + " | " + entry.getValue().getTitle() + " | User: " + entry.getValue().getUser() + " | Due Date: " + entry.getValue().getFine());
         }
 
     }
@@ -139,7 +142,7 @@ public class LoanManagement implements LoanManage{
             if (currentDate.isAfter(entry.getValue().getDueDate())){
                 long overdueDays = ChronoUnit.DAYS.between(entry.getValue().getDueDate(), currentDate);
                 double fine = overdueDays * 1.0; // Calculate fine based on policy
-                System.out.println("User: " + entry.getKey() + " has overdue book: " + entry.getValue().getBookId() + " | " + entry.getValue().getTitle() + " Fine: " + fine + "$");
+                System.out.println("User: " + entry.getValue().getUser() + " has overdue book: " + entry.getValue().getBookId() + " | " + entry.getValue().getTitle() + " Fine: " + fine + "$");
             }
 
         }

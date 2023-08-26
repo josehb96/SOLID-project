@@ -71,7 +71,7 @@ public class Library {
             System.out.println("1. Add new book");
             System.out.println("2. Remove book");
             System.out.println("3. Update book details");
-            System.out.println("0. Exit");
+            System.out.println("0. Go Back");
             System.out.print("Enter your choice: ");
 
             if (scanner.hasNextInt()){
@@ -118,7 +118,7 @@ public class Library {
             System.out.println("1. Register new user");
             System.out.println("2. Update user information");
             System.out.println("3. Deactivate user account");
-            System.out.println("0. Exit");
+            System.out.println("0. Go Back");
             System.out.print("Enter your choice: ");
 
             if (scanner.hasNextInt()){
@@ -164,7 +164,7 @@ public class Library {
             System.out.println("Loan Management Menu");
             System.out.println("1. Borrow a book");
             System.out.println("2. Return a book");
-            System.out.println("0. Exit");
+            System.out.println("0. Go Back");
             System.out.print("Enter your choice: ");
         
             if (scanner.hasNextInt()){
@@ -210,7 +210,7 @@ public class Library {
             System.out.println("2. Generate registered users report");
             System.out.println("3. Generate borrowed books report");
             System.out.println("4. Generate overdue users report");
-            System.out.println("0. Exit");
+            System.out.println("0. Go Back");
             System.out.print("Enter your choice: ");
         
             if (scanner.hasNextInt()){
@@ -415,11 +415,11 @@ public class Library {
             System.out.print("Enter the user id: ");
             String userId = scanner.nextLine();
 
-            System.out.print("Enter the book title: ");
-            String title = scanner.nextLine();
+            System.out.print("Enter the book id: ");
+            String bookId = scanner.nextLine();
     
             LoanManagement loanManagement = new LoanManagement();
-            loanManagement.borrowBook(libraryData, userId, title);
+            loanManagement.borrowBook(libraryData, userId, bookId);
         
         } catch (Exception e) {
             System.out.println("An error occurred while borrowing the book: " + e.getMessage());
@@ -434,14 +434,11 @@ public class Library {
 
         try {
 
-            System.out.print("Enter the user id: ");
-            String userId = scanner.nextLine();
-
-            System.out.print("Enter the book title: ");
-            String title = scanner.nextLine();
+            System.out.print("Enter the book id: ");
+            String bookId = scanner.nextLine();
     
             LoanManagement loanManagement = new LoanManagement();
-            loanManagement.returnBook(libraryData, userId, title);
+            loanManagement.returnBook(libraryData, bookId);
         
         } catch (Exception e) {
             System.out.println("An error occurred while returning the book: " + e.getMessage());
