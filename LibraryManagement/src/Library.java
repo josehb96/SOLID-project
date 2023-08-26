@@ -270,6 +270,7 @@ public class Library {
         
         } catch (Exception e) {
             System.out.println("An error occurred while processing your book info input: " + e.getMessage());
+            scanner.nextLine(); // Clean the buffer
         }
 
     }
@@ -288,6 +289,7 @@ public class Library {
 
         } catch (Exception e){
             System.out.println("An error occurred while removing the book indicated: " + e.getMessage());
+            scanner.nextLine(); // Clean the buffer
         }
 
     }
@@ -313,6 +315,7 @@ public class Library {
 
         } catch (Exception e){
             System.out.println("An error occurred while updating the book indicated: " + e.getMessage());
+            scanner.nextLine(); // Clean the buffer
         }
 
     }
@@ -344,6 +347,7 @@ public class Library {
         
         } catch (Exception e) {
             System.out.println("An error occurred while processing your user info input: " + e.getMessage());
+            scanner.nextLine(); // Clean the buffer
         }
 
     }
@@ -375,6 +379,7 @@ public class Library {
         
         } catch (Exception e) {
             System.out.println("An error occurred while updating the user data: " + e.getMessage());
+            scanner.nextLine(); // Clean the buffer
         }
 
     }
@@ -393,6 +398,7 @@ public class Library {
         
         } catch (Exception e) {
             System.out.println("An error occurred while removing the user: " + e.getMessage());
+            scanner.nextLine(); // Clean the buffer
         }
 
     }
@@ -414,6 +420,7 @@ public class Library {
         
         } catch (Exception e) {
             System.out.println("An error occurred while borrowing the book: " + e.getMessage());
+            scanner.nextLine(); // Clean the buffer
         }
 
     }
@@ -435,6 +442,7 @@ public class Library {
         
         } catch (Exception e) {
             System.out.println("An error occurred while returning the book: " + e.getMessage());
+            scanner.nextLine(); // Clean the buffer
         }
 
     }
