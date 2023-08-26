@@ -23,12 +23,12 @@ public class LibraryData {
 
     // Methods to manipulate book maps
 
-    public void addBook(String bookTitle, Book book) {
-        books.put(bookTitle, book);
+    public void addBook(String bookId, Book book) {
+        books.put(bookId, book);
     }
 
-    public void removeBook(String bookTitle) {
-        books.remove(bookTitle);
+    public void removeBook(String bookId) {
+        books.remove(bookId);
     }
 
     public Map<String, Book> getBooks() {

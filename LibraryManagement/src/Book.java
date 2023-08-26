@@ -1,15 +1,25 @@
+import java.util.UUID;
+
 public class Book {
 
     // Attributes
+    private String bookId;
     private String title;
     private String author;
     private int pages;
 
     // Constructor
     public Book (String title, String author, int pages){
+        this.bookId = UUID.randomUUID().toString(); // Generate a random bookId
         this.title = title;
         this.author = author;
         this.pages = pages;
+    }
+
+    // Getters
+
+    public String getBookId(){
+        return bookId;
     }
 
     public String getTitle(){
@@ -23,6 +33,8 @@ public class Book {
     public int getPages(){
         return pages;
     }
+
+    // Setters
 
     public void setTitle(String title){
         this.title = title;

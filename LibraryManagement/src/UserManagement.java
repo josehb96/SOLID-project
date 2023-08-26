@@ -1,6 +1,3 @@
-// import java.util.HashMap;
-// import java.util.Map;
-
 import java.util.Map;
 
 interface UserManage{
@@ -12,8 +9,6 @@ interface UserManage{
 }
 
 public class UserManagement implements UserManage {
-    
-    //private Map<String, User> users = new HashMap<>();
 
     @Override
     public void registerUser(LibraryData libraryData, String userId, String name, int age, String email, String phoneNumber){
@@ -62,19 +57,5 @@ public class UserManagement implements UserManage {
         }
 
     }
-
-    // // Additional methods for encapsulation
-    // public User getUser(String userId) {
-    //     return users.get(userId);
-    // }
-
-    // public int getNumberOfUsers() {
-    //     return users.size();
-    // }
-
-    // public Map<String, User> getUsers(){
-    //     return users;
-    // }
-
 
 }

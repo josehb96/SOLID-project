@@ -281,11 +281,11 @@ public class Library {
 
         try{
 
-            System.out.print("Enter the book title: ");
-            String title = scanner.nextLine();
+            System.out.print("Enter the book ID: ");
+            String bookId = scanner.nextLine();
 
             BookManagement bookManagement = new BookManagement();
-            bookManagement.removeBook(libraryData, title);
+            bookManagement.removeBook(libraryData, bookId);
 
         } catch (Exception e){
             System.out.println("An error occurred while removing the book indicated: " + e.getMessage());
@@ -300,6 +300,9 @@ public class Library {
 
         try{
 
+            System.out.print("Enter the book ID: ");
+            String bookId = scanner.nextLine();
+
             System.out.print("Enter the book title: ");
             String title = scanner.nextLine();
     
@@ -311,7 +314,7 @@ public class Library {
             scanner.nextLine(); // Clean the buffer
     
             BookManagement bookManagement = new BookManagement();
-            bookManagement.updateBook(libraryData, title, author, pages);
+            bookManagement.updateBook(libraryData, bookId, title, author, pages);
 
         } catch (Exception e){
             System.out.println("An error occurred while updating the book indicated: " + e.getMessage());

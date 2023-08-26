@@ -15,23 +15,9 @@ interface LoanManage {
 
 public class LoanManagement implements LoanManage{
 
-    //private Map<String, LoanBook> borrowings = new HashMap<>();
-
-    // Inyección de dependencias
-    //private BookManagement bookManager;
-    //private UserManagement userManager;
-
-    // public LoanManagement(BookManagement bookManager, UserManagement userManager) {
-    //     this.bookManager = bookManager;
-    //     this.userManager = userManager;
-    // }
-
 
     @Override
     public void borrowBook(LibraryData libraryData, String userId, String bookTitle){
-
-        //Map<String, Book> store = bookManager.getStore();
-        //Map<String, User> users = userManager.getUsers();
 
         // Check if the book is in the store
         if (libraryData.getBooks().containsKey(bookTitle)){
@@ -74,9 +60,6 @@ public class LoanManagement implements LoanManage{
 
     @Override
     public void returnBook(LibraryData libraryData, String userId, String bookTitle){
-
-        //Map<String, Book> store = bookManager.getStore();
-        //Map<String, User> users = userManager.getUsers();
 
         // Check if the user is in the borrowers
         if (libraryData.getBorrowings().containsKey(userId)){
@@ -124,14 +107,12 @@ public class LoanManagement implements LoanManage{
 
     public void generateAvailableBooksReport(LibraryData libraryData) {
 
-        //Map<String, Book> store = bookManager.getStore();
-
         System.out.println();
         System.out.println("Available Books:");
 
         for (Map.Entry<String, Book> entry : libraryData.getBooks().entrySet()) {
             if (!libraryData.getBorrowings().containsKey(entry.getKey())) {
-                System.out.println("- " + entry.getValue().getTitle() + " | " + entry.getValue().getAuthor() + " | " + entry.getValue().getPages() + " pages");
+                System.out.println("- " + entry.getValue().getBookId() + " | " + entry.getValue().getTitle() + " | " + entry.getValue().getAuthor() + " | " + entry.getValue().getPages() + " pages");
             }
         }
 
@@ -139,20 +120,26 @@ public class LoanManagement implements LoanManage{
 
     public void generateBorrowedBooksReport(LibraryData libraryData){
 
+        System.out.println();
+        System.out.println("Borrowed Books:");
+
         for (Map.Entry<String, LoanBook> entry : libraryData.getBorrowings().entrySet()){
-            System.out.println("Borrowed Book: " + entry.getValue().getTitle() + " Due Date: " + entry.getValue().getFine());
+            System.out.println("- " + entry.getValue().getBookId() + " | " + entry.getValue().getTitle() + " Due Date: " + entry.getValue().getFine());
         }
 
     }
 
     public void generateOverdueUsersReport(LibraryData libraryData){
 
+        System.out.println();
+        System.out.println("Overdue Users:");
+
         LocalDate currentDate = LocalDate.now();
         for (Map.Entry<String, LoanBook> entry : libraryData.getBorrowings().entrySet()){
             if (currentDate.isAfter(entry.getValue().getDueDate())){
                 long overdueDays = ChronoUnit.DAYS.between(entry.getValue().getDueDate(), currentDate);
                 double fine = overdueDays * 1.0; // Calculate fine based on policy
-                System.out.println("User: " + entry.getKey() + " has overdue book: " + entry.getValue().getTitle() + " Fine: " + fine + "$");
+                System.out.println("User: " + entry.getKey() + " has overdue book: " + entry.getValue().getBookId() + " | " + entry.getValue().getTitle() + " Fine: " + fine + "$");
             }
 
         }
