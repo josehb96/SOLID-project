@@ -13,7 +13,7 @@ public class BookManagement implements BookManage {
 
         Book book = new Book(title, author, pages);
         libraryData.addBook(book.getBookId(), book);
-        System.out.println("Book added correctly.");
+        System.out.println("Book added correctly - Book id: " + book.getBookId());
 
     }
 
@@ -39,7 +39,7 @@ public class BookManagement implements BookManage {
             book.setTitle(title);
             book.setAuthor(author);
             book.setPages(pages);
-            System.out.println("Book updated correctly.");
+            System.out.println("Book updated correctly - Book id: " + bookId);
         } else {
             System.out.println("Book not found: " + bookId);
         }
