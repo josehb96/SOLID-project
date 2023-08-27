@@ -249,6 +249,25 @@ public class Library {
 
     }
 
+    public static void checkInput(String input, String type) throws Exception {
+
+        String typeName = type.equals("title") ? "Book title"
+                       : type.equals("author") ? "Author name"
+                       : type.equals("bookId") ? "Book ID"
+                       : type.equals("userId") ? "User ID"
+                       : type.equals("name") ? "User name"
+                       : type.equals("email") ? "Email"
+                       : type.equals("phoneNumber") ? "Phone number"
+                       : "Input";
+    
+        // Check if the input has at least 1 character
+        if (input.length() <= 0) {
+            System.out.println("Invalid input. " + typeName + " should have at least 1 character.");
+            throw new Exception(typeName + " should have at least 1 character.");
+        }
+    }
+    
+
     public static void addNewBook(LibraryData libraryData, Scanner scanner){
 
         System.out.println();
@@ -257,13 +276,23 @@ public class Library {
 
             System.out.print("Enter the book title: ");
             String title = scanner.nextLine();
+
+            checkInput(title, "title");
     
             System.out.print("Enter the author: ");
             String author = scanner.nextLine();
+        
+            checkInput(author, "author");
     
             System.out.print("Enter the number of pages: ");
             int pages = scanner.nextInt();
             scanner.nextLine(); // Clean the buffer
+
+            // Check if the number of pages is valid
+            if (pages <= 0) {
+                System.out.println("Invalid input. Book pages should be greather than 1.");
+                return; // Exit the method
+            }
     
             BookManagement bookManagement = new BookManagement();
             bookManagement.addBook(libraryData, title, author, pages);
@@ -284,6 +313,8 @@ public class Library {
             System.out.print("Enter the book ID: ");
             String bookId = scanner.nextLine();
 
+            checkInput(bookId, "bookId");
+
             BookManagement bookManagement = new BookManagement();
             bookManagement.removeBook(libraryData, bookId);
 
@@ -303,15 +334,27 @@ public class Library {
             System.out.print("Enter the book ID: ");
             String bookId = scanner.nextLine();
 
+            checkInput(bookId, "bookId");
+
             System.out.print("Enter the book title: ");
             String title = scanner.nextLine();
+
+            checkInput(title, "title");
     
             System.out.print("Enter the author: ");
             String author = scanner.nextLine();
+
+            checkInput(author, "author");
     
             System.out.print("Enter the number of pages: ");
             int pages = scanner.nextInt();
             scanner.nextLine(); // Clean the buffer
+
+            // Check if the number of pages is valid
+            if (pages <= 0) {
+                System.out.println("Invalid input. Book pages should be greather than 1.");
+                return; // Exit the method
+            }
     
             BookManagement bookManagement = new BookManagement();
             bookManagement.updateBook(libraryData, bookId, title, author, pages);
@@ -332,18 +375,32 @@ public class Library {
             System.out.print("Enter the id: ");
             String userId = scanner.nextLine();
 
+            checkInput(userId, "userId");
+
             System.out.print("Enter the name: ");
             String name = scanner.nextLine();
+
+            checkInput(name, "name");
     
             System.out.print("Enter the age: ");
             int age = scanner.nextInt();
             scanner.nextLine(); // Clean the buffer
+
+            // Check if the number of pages is valid
+            if (age < 0) {
+                System.out.println("Invalid input. The age of the user must be greather than 0.");
+                return; // Exit the method
+            }
     
             System.out.print("Enter the email: ");
             String email = scanner.nextLine();
             
+            checkInput(email, "email");
+
             System.out.print("Enter the phone number: ");
             String phoneNumber = scanner.nextLine();
+
+            checkInput(phoneNumber, "phoneNumber");
     
             UserManagement userManagement = new UserManagement();
             userManagement.registerUser(libraryData, userId, name, age, email, phoneNumber);
@@ -364,8 +421,12 @@ public class Library {
             System.out.print("Enter the id: ");
             String userId = scanner.nextLine();
 
+            checkInput(userId, "userId");
+
             System.out.print("Enter the name: ");
             String name = scanner.nextLine();
+
+            checkInput(name, "name");
     
             System.out.print("Enter the age: ");
             int age = scanner.nextInt();
@@ -373,10 +434,14 @@ public class Library {
     
             System.out.print("Enter the email: ");
             String email = scanner.nextLine();
+
+            checkInput(email, "email");
             
             System.out.print("Enter the phone number: ");
             String phoneNumber = scanner.nextLine();
     
+            checkInput(phoneNumber, "phoneNumber");
+
             UserManagement userManagement = new UserManagement();
             userManagement.updateUser(libraryData, userId, name, age, email, phoneNumber);
         
@@ -393,8 +458,10 @@ public class Library {
 
         try {
 
-            System.out.print("Enter the id: ");
+            System.out.print("Enter the user id to delete: ");
             String userId = scanner.nextLine();
+
+            checkInput(userId, "userId");
     
             UserManagement userManagement = new UserManagement();
             userManagement.deactivateUser(libraryData, userId);
@@ -415,8 +482,12 @@ public class Library {
             System.out.print("Enter the user id: ");
             String userId = scanner.nextLine();
 
+            checkInput(userId, "userId");
+
             System.out.print("Enter the book id: ");
             String bookId = scanner.nextLine();
+
+            checkInput(bookId, "bookId");
     
             LoanManagement loanManagement = new LoanManagement();
             loanManagement.borrowBook(libraryData, userId, bookId);
@@ -436,6 +507,8 @@ public class Library {
 
             System.out.print("Enter the book id: ");
             String bookId = scanner.nextLine();
+
+            checkInput(bookId, "bookId");
     
             LoanManagement loanManagement = new LoanManagement();
             loanManagement.returnBook(libraryData, bookId);
