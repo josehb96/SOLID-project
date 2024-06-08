@@ -3,11 +3,11 @@ In this project, I'll create a library management system applying the SOLID prin
 
 # Project: Library Management System
 
-# Description:
+## Description:
 
 Create a software system that manages a library's collection of books, allows users to borrow and return books, calculates fines for overdue books, and generates reports about the library's activities.
 
-# Functional Requirements:
+## Functional Requirements:
 
 1.Book Management:
 
@@ -36,7 +36,7 @@ Create a software system that manages a library's collection of books, allows us
 - Generate reports showing borrowed books and their due dates.
 - Generate reports showing users with overdue books and fines.
 
-# Application of SOLID Principles:
+## Application of SOLID Principles:
 
 1.SRP (Single Responsibility Principle):
 
